@@ -1,14 +1,13 @@
-#!/bin/bash
-## 
+#!/usr/bin/env bash
 ## Copyright 2018 Smx
-##
+## Copyright 2020 Mizux
+set -euxo pipefail
 shopt -s nocasematch
-gamedir="$1"
-scriptdir="$(readlink -f "$(dirname "$0")")"
 
+gamedir="$1"
 if [ -z "$gamedir" ]; then
 	echo "Usage: $0 [gamedir]"
-	exit 1
+	exit 0
 fi
 
 if [ -f "$gamedir/RUNTIME.KIX" ]; then
@@ -20,25 +19,26 @@ else
 	exit 1
 fi
 
+scriptdir="$(readlink -f "$(dirname "$0")")"
+# Unpacker must be in the same location than this script
+command -v "${scriptdir}/kunpackerbin"
+
 for kix in "$datadir"/*.KIX; do
+	# if no files found do nothing
+	[[ -e "$kix" ]] || continue
+
 	name=$(basename "${kix%.*}")
-	kbf="${datadir}/${name}.KBF"
-	if [ ! -f "$kbf" ]; then
-		echo "Skipping ${name} extraction, missing kbf file"
+	if [ -d "$datadir/$name" ]; then
+		echo "Skipping ${name}.KIX extraction, already extracted"
 		continue
 	fi
 
-	if [ -d "$datadir/$name" ]; then
-		if [ $(ls -A "$datadir/$name" | wc -l) -gt 0 ]; then
-			echo "Skipping ${name} extraction, already extracted"
-			continue
-		fi
-	else
-		mkdir "$datadir/$name"
+	kbf="${datadir}/${name}.KBF"
+	if [ ! -f "$kbf" ]; then
+		echo "Skipping ${name}.KIX extraction, missing ${name}.KBF file"
+		continue
 	fi
-	
-	pushd "$datadir/$name" &>/dev/null
+
 	echo "Extracting $name..."
-	"${scriptdir}/kunp" "$kix" "$kbf"
-	popd &>/dev/null
+	"${scriptdir}/kunpackerbin" "$kix" "$kbf"
 done
