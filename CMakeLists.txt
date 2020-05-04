@@ -15,16 +15,6 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 include(CTest)
 
-# Legacy project
-add_subdirectory(kunp)
-
-if(WIN32)
-  set(BUILD_SHARED_LIBS OFF)
-  add_subdirectory(mman-win32)
-  target_link_libraries(kunp mman)
-endif(WIN32)
-
-# Mizux fork
 add_subdirectory(libkunpacker)
 add_subdirectory(kunpacker)
 
