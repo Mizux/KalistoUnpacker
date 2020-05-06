@@ -1,15 +1,10 @@
-build
-*.o
-*.obj
-*.a
-*.lib
-*.dll
-*.exe
+/build
+/cache
 
-cache
-samples
-
-gamedir
+# Usual Game Dir
+/samples
+/gamedir
+/DATA
 
 # Visual studio
 .vs/
@@ -20,4 +15,5 @@ gamedir
 CMakeLists.txt.user
 # vim
 compile_commands.json
+.ycm_extra_conf.py
 *.swp
