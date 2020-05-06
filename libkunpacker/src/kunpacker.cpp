@@ -9,13 +9,14 @@ namespace ku {
 bool isKixFile(const fs::path& path) {
   std::ifstream file;
   file.open(path, std::ios::binary);
-  if (!file.is_open()) std::exit(EXIT_FAILURE);
+  if (!file.is_open())
+    std::exit(EXIT_FAILURE);
 
-	kixHdr_t hdr;
-	readKixHdr(file, &hdr, /*advance_cursor=*/true);
+  kixHdr_t hdr;
+  readKixHdr(file, &hdr, /*advance_cursor=*/true);
 
-	kixNode_t node;
-	readKixNode(file, &node, /*advance_cursor=*/true);
+  kixNode_t node;
+  readKixNode(file, &node, /*advance_cursor=*/true);
   if (node.type != kixNodeType::DIRECTORY && node.type != kixNodeType::FILE)
     return false;
 
@@ -25,23 +26,22 @@ bool isKixFile(const fs::path& path) {
 bool isHeraFile(const fs::path& path) {
   std::ifstream file;
   file.open(path, std::ios::binary);
-  if (!file.is_open()) std::exit(EXIT_FAILURE);
+  if (!file.is_open())
+    std::exit(EXIT_FAILURE);
 
-	kixHdr_t hdr;
-	readKixHdr(file, &hdr, /*advance_cursor=*/true);
+  kixHdr_t hdr;
+  readKixHdr(file, &hdr, /*advance_cursor=*/true);
 
-  //for (int i = 0;; i++) {
+  // for (int i = 0;; i++) {
   //  if (i + 10 >= 32) return false;
   //  if (!std::strncmp((char*)(data + i), " \r\n%%%% \r\n", 10)) return true;
   //}
   return false;
 }
 
-void parseKixBlock(const fs::path& basedir, std::ifstream& kix,
-                   std::ifstream& kbf, bool extract) {
+void parseKixBlock(const fs::path& basedir, std::ifstream& kix, std::ifstream& kbf, bool extract) {
   if (!extract) {
-    std::cout << "--- KIX BLOCK 0x" << std::hex << kix.tellg() << std::dec
-              << " ---\n";
+    std::cout << "--- KIX BLOCK 0x" << std::hex << kix.tellg() << std::dec << " ---\n";
     std::cout << "Path: " << basedir << std::endl;
   }
   kixHdr_t hdr;
@@ -80,8 +80,7 @@ void parseKixBlock(const fs::path& basedir, std::ifstream& kix,
         kix.read(reinterpret_cast<char*>(&name_length), sizeof(std::uint8_t));
         std::vector<char> name(name_length + 1, '\0');
         kix.read(name.data(), name_length);
-        std::cout << ", name: `" << std::string(name.data(), name.size()) << "`"
-                  << std::endl;
+        std::cout << ", name: `" << std::string(name.data(), name.size()) << "`" << std::endl;
       }
     } else {
       std::cerr << "Unknow type node !\n";
@@ -128,8 +127,7 @@ void readKixNode(std::ifstream& kix, kixNode_t* node, bool advance_cursor) {
   }
 }
 
-void extractKixNode(const fs::path& basedir, const kixNode_t& node,
-                    std::ifstream& kix, std::ifstream& kbf) {
+void extractKixNode(const fs::path& basedir, const kixNode_t& node, std::ifstream& kix, std::ifstream& kbf) {
   std::uint8_t name_length;
   kix.read(reinterpret_cast<char*>(&name_length), sizeof(std::uint8_t));
   std::vector<char> name(name_length + 1, '\0');
@@ -138,9 +136,7 @@ void extractKixNode(const fs::path& basedir, const kixNode_t& node,
   // Get the file entry referenced by this index entry
   kbf.seekg(node.offset);
   if (kbf.fail() || kbf.eof()) {
-    std::cerr << std::hex << "ERROR: cannot reach the offset (0x" << node.offset
-              << ") !\n",
-        std::exit(-2);
+    std::cerr << std::hex << "ERROR: cannot reach the offset (0x" << node.offset << ") !\n", std::exit(-2);
   }
   kbfNode_t kbf_node;
   readKbfNode(kbf, &kbf_node, /*advance_cursor=*/true);
@@ -161,7 +157,7 @@ void extractKixNode(const fs::path& basedir, const kixNode_t& node,
       std::exit(EXIT_FAILURE);
     }
     ofs_out.write(reinterpret_cast<char*>(data.data()),
-                  node.size);  // binary output
+                  node.size); // binary output
     ofs_out.close();
   }
   std::cout << "DONE\n";
@@ -178,4 +174,4 @@ void readKbfNode(std::ifstream& kbf, kbfNode_t* node, bool advance_cursor) {
     kbf.seekg(pos);
   }
 }
-}  // namespace ku
+} // namespace ku

@@ -52,7 +52,8 @@ int main(int argc, char** argv) {
     try {
       auto kbf_size = fs::file_size(kbf_path);
       std::cout << "File size = " << kbf_size << "bytes\n";
-      if (kbf_size == 0) exit(EXIT_FAILURE);
+      if (kbf_size == 0)
+        exit(EXIT_FAILURE);
     } catch (fs::filesystem_error& e) {
       std::cerr << e.what() << '\n';
       std::exit(EXIT_FAILURE);
