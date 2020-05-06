@@ -1,13 +1,7 @@
 #include "kunpacker.hpp"
 
-#include <cstddef>
-#include <cstdint>
-#include <cstring>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <locale>
-#include <string>
 
 #define DRYRUN false
 
@@ -17,19 +11,14 @@ bool isKixFile(const fs::path& path) {
   file.open(path, std::ios::binary);
   if (!file.is_open()) std::exit(EXIT_FAILURE);
 
-  constexpr std::size_t headSz = sizeof(kixHdr_t) + sizeof(kixNode_t);
-  char head[headSz];
-  std::memset(&head, 0x00, headSz);
+	kixHdr_t hdr;
+	readKixHdr(file, &hdr, /*advance_cursor=*/true);
 
-  file.read(reinterpret_cast<char*>(&head), headSz);
-  file.close();
-
-  return isKixData((const std::uint8_t*)&head);
-}
-bool isKixData(const std::uint8_t* data) {
-  kixNode_t* root = (kixNode_t*)(data + sizeof(kixHdr_t));
-  if (root->type != kixNodeType::DIRECTORY && root->type != kixNodeType::FILE)
+	kixNode_t node;
+	readKixNode(file, &node, /*advance_cursor=*/true);
+  if (node.type != kixNodeType::DIRECTORY && node.type != kixNodeType::FILE)
     return false;
+
   return true;
 }
 
@@ -38,19 +27,13 @@ bool isHeraFile(const fs::path& path) {
   file.open(path, std::ios::binary);
   if (!file.is_open()) std::exit(EXIT_FAILURE);
 
-  char head[32];
-  std::memset(&head, 0x00, 32);
+	kixHdr_t hdr;
+	readKixHdr(file, &hdr, /*advance_cursor=*/true);
 
-  file.read(reinterpret_cast<char*>(&head), 32);
-  file.close();
-
-  return isHeraData((const std::uint8_t*)&head);
-}
-bool isHeraData(const std::uint8_t* data) {
-  for (int i = 0;; i++) {
-    if (i + 10 >= 32) return false;
-    if (!std::strncmp((char*)(data + i), " \r\n%%%% \r\n", 10)) return true;
-  }
+  //for (int i = 0;; i++) {
+  //  if (i + 10 >= 32) return false;
+  //  if (!std::strncmp((char*)(data + i), " \r\n%%%% \r\n", 10)) return true;
+  //}
   return false;
 }
 

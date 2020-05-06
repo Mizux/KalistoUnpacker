@@ -10,10 +10,8 @@ namespace fs = std::filesystem;
 
 namespace ku {
 bool isKixFile(const fs::path& path);
-bool isKixData(const std::uint8_t* data);
 
 bool isHeraFile(const fs::path& path);
-bool isHeraData(const std::uint8_t* data);
 
 void parseKixBlock(const fs::path& basedir, std::ifstream& kix,
                    std::ifstream& kbf, bool extract = false);
@@ -35,7 +33,7 @@ struct [[gnu::packed]] kixHdr_t {
 };
 void readKixHdr(std::ifstream& kix, kixHdr_t* hdr, bool advance_cursor = false);
 
-enum class kixNodeType : uint8_t { DIRECTORY = 0, FILE = 1 };
+enum class kixNodeType : std::uint8_t { DIRECTORY = 0, FILE = 1 };
 std::ostream& operator<<(std::ostream& os, kixNodeType type);
 
 struct [[gnu::packed]] kixNode_t {
