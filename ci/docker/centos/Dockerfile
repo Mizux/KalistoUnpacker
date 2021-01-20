@@ -19,7 +19,6 @@ RUN dnf -y update \
 && dnf -y install gcc-toolset-9-gcc gcc-toolset-9-gcc-c++
 #RUN source /opt/rh/gcc-toolset-9/enable
 ENV PATH=/opt/rh/gcc-toolset-9/root/usr/bin:$PATH
-CMD [ "/usr/bin/bash" ]
 
 FROM env AS devel
 WORKDIR /home/project

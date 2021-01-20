@@ -8,7 +8,6 @@ RUN zypper update -y \
 && zypper install -y git gcc gcc-c++ cmake \
 && zypper clean -a
 ENV CC=gcc CXX=g++
-CMD [ "/bin/sh" ]
 
 FROM env AS devel
 WORKDIR /home/project

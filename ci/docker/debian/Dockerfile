@@ -19,7 +19,6 @@ RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.lis
 && apt install -yq gcc \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-CMD [ "/bin/sh" ]
 
 FROM env AS devel
 WORKDIR /home/project

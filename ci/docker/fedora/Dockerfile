@@ -9,7 +9,6 @@ RUN dnf -y update \
 && dnf -y groupinstall "Development Tools" \
 && dnf -y install gcc-c++ cmake \
 && dnf clean all
-CMD [ "/bin/sh" ]
 
 FROM env AS devel
 WORKDIR /home/project

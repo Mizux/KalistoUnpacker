@@ -5,7 +5,6 @@ LABEL maintainer="mizux.dev@gmail.com"
 # Install system build dependencies
 ENV PATH=/usr/local/bin:$PATH
 RUN apk add --no-cache git build-base cmake
-CMD [ "/bin/sh" ]
 
 FROM env AS devel
 WORKDIR /home/project
