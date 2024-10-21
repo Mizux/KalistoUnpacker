@@ -1,19 +1,18 @@
-/build
-/cache
+build/
+build*/
+export/
+cache/
 
-# Usual Game Dir
-/samples
-/gamedir
-/DATA
+.vagrant/
 
-# Visual studio
+# IDE
 .vs/
+.cache/
 # Kdevelop
-.kdev4
+.kdev4/
 *.kdev4
-# QT Creator
-CMakeLists.txt.user
 # vim
 compile_commands.json
 .ycm_extra_conf.py
 *.swp
+*.user
