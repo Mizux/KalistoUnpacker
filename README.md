@@ -1,24 +1,34 @@
-Github-CI:
-[![Build Status][github_docker_status]][github_docker_link]
-[![Build Status][github_linux_status]][github_linux_link]
-[![Build Status][github_macos_status]][github_macos_link]
-[![Build Status][github_windows_status]][github_windows_link]
+Github-CI:<br>
+[![Build Status][amd64_linux_status]][amd64_linux_link]
+[![Build Status][arm64_macos_status]][arm64_macos_link]
+[![Build Status][amd64_macos_status]][amd64_macos_link]
+[![Build Status][amd64_windows_status]][amd64_windows_link]<br>
 
-[github_docker_status]: https://github.com/Mizux/KalistoUnpacker/workflows/Docker/badge.svg
-[github_docker_link]: https://github.com/Mizux/KalistoUnpacker/actions?query=workflow%3ADocker
+[![Build Status][amd64_docker_status]][amd64_docker_link]
+[![Build Status][arm64_docker_status]][arm64_docker_link]
+[![Build Status][riscv64_docker_status]][riscv64_docker_link]<br>
 
-[github_linux_status]: https://github.com/Mizux/KalistoUnpacker/workflows/Linux/badge.svg
-[github_linux_link]: https://github.com/Mizux/KalistoUnpacker/actions?query=workflow%3ALinux
+[amd64_linux_status]: ./../../actions/workflows/amd64_linux.yml/badge.svg
+[amd64_linux_link]: ./../../actions/workflows/amd64_linux.yml
+[arm64_macos_status]: ./../../actions/workflows/arm64_macos.yml/badge.svg
+[arm64_macos_link]: ./../../actions/workflows/arm64_macos.yml
+[amd64_macos_status]: ./../../actions/workflows/amd64_macos.yml/badge.svg
+[amd64_macos_link]: ./../../actions/workflows/amd64_macos.yml
+[amd64_windows_status]: ./../../actions/workflows/amd64_windows.yml/badge.svg
+[amd64_windows_link]: ./../../actions/workflows/amd64_windows.yml
 
-[github_macos_status]: https://github.com/Mizux/KalistoUnpacker/workflows/MacOS/badge.svg
-[github_macos_link]: https://github.com/Mizux/KalistoUnpacker/actions?query=workflow%3AMacOS
-
-[github_windows_status]: https://github.com/Mizux/KalistoUnpacker/workflows/Windows/badge.svg
-[github_windows_link]: https://github.com/Mizux/KalistoUnpacker/actions?query=workflow%3AWindows
+[amd64_docker_status]: ./../../actions/workflows/amd64_docker.yml/badge.svg
+[amd64_docker_link]: ./../../actions/workflows/amd64_docker.yml
+[arm64_docker_status]: ./../../actions/workflows/arm64_docker.yml/badge.svg
+[arm64_docker_link]: ./../../actions/workflows/arm64_docker.yml
+[riscv64_docker_status]: ./../../actions/workflows/riscv64_docker.yml/badge.svg
+[riscv64_docker_link]: ./../../actions/workflows/riscv64_docker.yml
 
 
 # Introduction
+
 <nav for="project"> |
+<a href="#requirement">Requirement</a> |
 <a href="#codemap">Codemap</a> |
 <a href="#build-project">Build</a> |
 <a href="#test-project">Test</a> |
@@ -34,10 +44,17 @@ It is based on [The Fifth Element](https://en.wikipedia.org/wiki/The_Fifth_Eleme
 
 smx:
 > Based on my discoveries, the KBF extension stands for "Kalisto Binary File" and KIX stands for "Kalisto Index File".
-I don't own any other Kalisto-made game to verify if other games also use the same binary format, but you're free to try this tool and see if it works for you
+I don't own any other Kalisto-made game to verify if other games also use the same binary format, but yo're free to try this tool and see if it works for you
 
-# Codemap
-Thus the project layout is as follow:
+## Requirement
+
+You'll need:
+
+* "CMake >= 3.16".
+
+## Codemap
+
+The project layout is as follow:
 
 * [CMakeLists.txt](CMakeLists.txt) Top-level for [CMake](https://cmake.org/cmake/help/latest/) based build.
 * [cmake](cmake) Subsidiary CMake files.
@@ -80,5 +97,27 @@ cmake --build build --config Release --target install -v
 
 note: replace `install` by `INSTALL` for non makefile/xcode generators.
 
-# License
+## Appendices
+
+Few links on the subject...
+
+### Resources
+
+Project layout:
+* [The Pitchfork Layout Revision 1 (cxx-pflR1)](https://github.com/vector-of-bool/pitchfork)
+
+CMake:
+* https://llvm.org/docs/CMakePrimer.html
+* https://cliutils.gitlab.io/modern-cmake/
+* https://cgold.readthedocs.io/en/latest/
+
+# Contributing
+
+The [CONTRIBUTING.md](./CONTRIBUTING.md) file contains instructions on how to
+file the Contributor License Agreement before sending any pull requests (PRs).
+Of course, if you're new to the project, it's usually best to discuss any
+proposals and reach consensus before sending your first PR.
+
+## License
+
 Apache 2. See the LICENSE file for details.
