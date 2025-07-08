@@ -6,7 +6,7 @@ FROM fedora:latest AS env
 ENV PATH=/usr/local/bin:$PATH
 RUN dnf -y update \
 && dnf -y install git wget \
-&& dnf -y groupinstall "Development Tools" \
+&& dnf -y install @development-tools \
 && dnf -y install gcc-c++ cmake \
 && dnf clean all
 
@@ -26,7 +26,7 @@ RUN CTEST_OUTPUT_ON_FAILURE=1 cmake --build build --target test -v
 
 # Test install rules
 FROM env AS install_env
-COPY --from=build /usr/local /usr/local/
+COPY --from=build /usr/local/ /usr/local/
 
 FROM install_env AS install_devel
 WORKDIR /home/sample
