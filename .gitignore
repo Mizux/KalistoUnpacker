@@ -2,6 +2,7 @@ build/
 build*/
 export/
 cache/
+/samples
 
 .vagrant/
 
